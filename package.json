@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "type": "module",
   "dependencies": {
-    "appwrite": "^13.0.0",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "input": "^1.0.1"
   }
 }

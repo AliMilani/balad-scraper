@@ -16,19 +16,20 @@ curl --location 'https://poi.raah.ir/web/v4/preview-bulk/4BpKovq6fJvREd%2CPCVb52
 --header 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'
 
 
-curl --location 'https://search.raah.ir/v4/placeslist/cat/?region=city-qom&name=restaurant&page=2' \
---header 'authority: search.raah.ir' \
---header 'accept: application/json, text/plain, */*' \
---header 'accept-language: en-US,en;q=0.9,fa;q=0.8' \
---header 'dnt: 1' \
---header 'origin: https://balad.ir' \
---header 'platform: web' \
---header 'referer: https://search.raah.ir/' \
---header 'sec-ch-ua: "Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"' \
---header 'sec-ch-ua-mobile: ?0' \
---header 'sec-ch-ua-platform: "Linux"' \
---header 'sec-fetch-dest: empty' \
---header 'sec-fetch-mode: cors' \
---header 'sec-fetch-site: cross-site' \
---header 'sec-gpc: 1' \
---header 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'
+curl 'https://search.raah.ir/v4/placeslist/cat/?region=city-qom&name=restaurant&page=1&f_phone=61&has_filter=true' \
+  -H 'authority: search.raah.ir' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en-US,en;q=0.9,fa;q=0.8' \
+  -H 'dnt: 1' \
+  -H 'origin: https://balad.ir' \
+  -H 'platform: web' \
+  -H 'referer: https://search.raah.ir/' \
+  -H 'sec-ch-ua: "Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-gpc: 1' \
+  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' \
+  --compressed
