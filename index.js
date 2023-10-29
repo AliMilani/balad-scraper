@@ -22,16 +22,33 @@ const getOutputFileName = async () => {
 };
 
 const mian = async () => {
-    console.log(
-        "example : https://balad.ir/city-qom/cat-restaurant?page=2#11.64/34.6128/50.8964"
-    );
-    const searchUrl = await input.text("Enter search url: ");
-    // const searchUrl =
-    //     "https://balad.ir/city-qom/cat-restaurant?page=2#11.64/34.6128/50.8964";
+    console.log("loading category groups...\n");
+    const categoryGroups = await balad.getCategoryGroups();
 
-    const category = balad.getCategory(searchUrl);
-    const city = balad.getCityName(searchUrl);
+    console.log("\n==> Select category group:");
+    const categorySlug = await input.select(
+        categoryGroups.map(({ slug }) => slug)
+    );
+
+    const groupCategories = await balad.getCategoryGroupBySlug(categorySlug);
+
+    console.log("\n==> Select category:");
+    const category = await input.select(groupCategories.map(({ slug }) => slug));
+
+    const cities = await balad.getCities();
+    console.log("\n==> Select city:");
+    const city = await input.select(cities.map(({ city }) => city));
+
+    console.log("Please wait...");
     const totalPages = await balad.getTotalPages({ city, category });
+    if (!totalPages) {
+        console.log("\nNo result found. try another category or city.");
+        console.log("\n ==> Do you want to try again?");
+
+        const answer = await input.select(["No", "Yes"]);
+        if (answer === "Yes") return mian();
+        else process.exit(0);
+    }
 
     console.log({ category, city, totalPages });
 
@@ -40,6 +57,7 @@ const mian = async () => {
         console.log(
             `\n\n==>File '${outputFileName}' already exists.\nDo you want to append to the file?`
         );
+
         const answer = await input.select(["No", "Yes"]);
         if (answer === "No") {
             console.log("Exiting...");
@@ -77,14 +95,8 @@ const mian = async () => {
         chunks.push(allIds.slice(i, i + chunkSize));
     }
 
-    const getItemsPromises = []
+    const getItemsPromises = [];
     for (let chunk of chunks) {
-        // const items = await balad.getItems(chunk);
-        // const csvRow = items.map(
-        //     ({ name, address, telephone }) => `${name},${address},${telephone}`
-        // );
-        // await fs.appendFile(outputFileName, "\n" + csvRow.join("\n"));
-        // console.log(`${chunk.length} items done.`);
         getItemsPromises.push(async () => {
             const items = await balad.getItems(chunk);
             const csvRow = items.map(
@@ -92,19 +104,17 @@ const mian = async () => {
             );
             await fs.appendFile(outputFileName, "\n" + csvRow.join("\n"));
             console.log(`${chunk.length} items done.`);
-        })
+        });
     }
 
     for (let i = 0; i <= getItemsPromises.length; i += concurrency) {
-        console.log(`scraping ${i}=>${i + concurrency} | (${getItemsPromises.length})`);
-        const promises = getItemsPromises
-            .slice(i, i + concurrency)
-            .map((f) => f());
+        console.log(
+            `scraping ${i}=>${i + concurrency} | (${getItemsPromises.length})`
+        );
+        const promises = getItemsPromises.slice(i, i + concurrency).map((f) => f());
         await Promise.all(promises);
     }
     console.timeEnd("time");
-
 };
-
 
 mian();

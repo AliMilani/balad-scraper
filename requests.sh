@@ -33,3 +33,46 @@ curl 'https://search.raah.ir/v4/placeslist/cat/?region=city-qom&name=restaurant&
   -H 'sec-gpc: 1' \
   -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' \
   --compressed
+
+
+  curl 'https://search.raah.ir/v4/bundle-search/?slug=fast-food-restaurant&polygon=51.20051696049714%2C35.87437939150561%7C51.54568793950443%2C35.87437939150561%7C51.54568793950443%2C35.641788984173715%7C51.20051696049714%2C35.641788984173715%7C51.20051696049714%2C35.87437939150561&zoom=11.012311956296406&camera=51.373102450000786%2C35.758084187839664&f_phone=61&has_filter=true' \
+  -H 'authority: search.raah.ir' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en-US,en;q=0.9,fa;q=0.8' \
+  -H 'dnt: 1' \
+  -H 'origin: https://balad.ir' \
+  -H 'platform: web' \
+  -H 'referer: https://search.raah.ir/' \
+  -H 'sec-ch-ua: "Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-gpc: 1' \
+  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' \
+  --compressed
+
+
+  curl 'https://search.raah.ir/v6/bundle-list/full/' \
+  -H 'Referer: https://balad.ir/' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' \
+  -H 'DNT: 1' \
+  --compressed
+
+  curl 'https://search.raah.ir/v1/web/homepage/?zoom=10.00&camera=51.411954%2C35.699521' \
+  -H 'authority: search.raah.ir' \
+  -H 'accept: application/json, text/plain, */*' \
+  -H 'accept-language: en-US,en;q=0.9,fa;q=0.8' \
+  -H 'dnt: 1' \
+  -H 'origin: https://balad.ir' \
+  -H 'referer: https://search.raah.ir/' \
+  -H 'sec-ch-ua: "Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: cross-site' \
+  -H 'sec-gpc: 1' \
+  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36' \
+  --compressed

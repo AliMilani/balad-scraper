@@ -1,22 +1,5 @@
-
-// const retry = async (promise, { times, initialDelay, onRetry }) => {
-//     let error;
-//     for (let i = 0; i < times; i++) {
-//         try {
-//             return await promise;
-//         } catch (e) {
-//             error = e;
-//             if (onRetry) onRetry(e, i);
-//             await new Promise((resolve) => setTimeout(resolve, initialDelay * i));
-//         }
-//     }
-//     throw error;
-// }
-
-// retry(Promise.reject('how'), { times: 3, initialDelay: 100 })
 const getTotalPages = async ({ city, category, page }) => {
     const url = _getSearchApiUrl({ city, category, page });
-    // console.log(url)
     const response = await fetch(url);
     const { page_count } = await response.json();
     return page_count;
@@ -34,7 +17,6 @@ const _getSearchApiUrl = ({ city, category, page }) => {
 };
 
 const getItems = async (ids) => {
-
     const param = ids.join("%2C");
     const url = `https://poi.raah.ir/web/v4/preview-bulk/${param}`;
     const options = {
@@ -44,28 +26,17 @@ const getItems = async (ids) => {
     };
 
     const response = await fetch(url);
-    // const response = await retry(await fetch(url), options);
-    // console.log(response)
     return (await response.json()).items;
 };
 
 const getPageItemIds = async ({ city, category, page }) => {
     const url = _getSearchApiUrl({ city, category, page });
-    const options = {
-        times: 5,
-        initialDelay: 1000,
-        onRetry: (error) => console.log(`Retrying... ${error.message}`),
-    };
+
 
     const response = await fetch(url);
-    // const response = await retry(await fetch(url), options);
     const { items } = await response.json();
     return items;
 };
-
-// const sleep = (ms) => {
-//     return new Promise((resolve) => setTimeout(resolve, ms));
-// };
 
 const getCityName = (searchUrl) => {
     const url = new URL(searchUrl);
@@ -80,10 +51,43 @@ const getCategory = (searchUrl) => {
     return category;
 };
 
+const getCities = async () => {
+    const homedata = await (
+        await fetch("https://search.raah.ir/v1/web/homepage/")
+    ).json();
+    return homedata.widgets
+        .find((w) => w.type === "stacked-list")
+        .data.items.map((city) => ({
+            label: city.text,
+            city: city.link.params.city,
+        }));
+};
+
+const getCategoryGroups = async () => {
+    const categories = await _getCategories();
+    return categories.map(({ slug, title }) => ({ slug, title }));
+};
+
+const _getCategories = async () => {
+    const { results } = await (
+        await fetch("https://search.raah.ir/v6/bundle-list/full/")
+    ).json();
+    return results;
+};
+
+const getCategoryGroupBySlug = async (slug) => {
+    const categories = await _getCategories();
+    return categories.find((categoryGroup) => categoryGroup.slug === slug)
+        .categories;
+}
+
 module.exports = {
     getTotalPages,
     getPageItemIds,
     getCityName,
     getItems,
     getCategory,
+    getCities,
+    getCategoryGroups,
+    getCategoryGroupBySlug,
 };
