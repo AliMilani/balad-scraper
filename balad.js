@@ -16,6 +16,7 @@
 // retry(Promise.reject('how'), { times: 3, initialDelay: 100 })
 const getTotalPages = async ({ city, category, page }) => {
     const url = _getSearchApiUrl({ city, category, page });
+    // console.log(url)
     const response = await fetch(url);
     const { page_count } = await response.json();
     return page_count;
@@ -74,7 +75,7 @@ const getCityName = (searchUrl) => {
 };
 
 const getCategory = (searchUrl) => {
-    const categoryRegex = /(?<=cat-)(.*?)(?=[^a-zA-Z0-9]|$)/g;
+    const categoryRegex = /(?<=cat-)(.*?)(?=[^a-zA-Z0-9-\-]|$)/g;
     const category = searchUrl.match(categoryRegex)[0];
     return category;
 };
